@@ -29,7 +29,7 @@ public class SaltoPrecision extends JFrame {
         // Jugadores
         jugador1 = new JLabel(new ImageIcon("src/main/java/Game/imagenes/goku.png"));
         jugador1.setBounds(50, 200, 100, 100);
-        jugador2 = new JLabel(new ImageIcon("vegeta.png"));
+        jugador2 = new JLabel(new ImageIcon("src/main/java/Game/imagenes/vegeta.png"));
         jugador2.setBounds(450, 200, 100, 100);
 
         // Barra de poder
