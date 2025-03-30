@@ -16,6 +16,9 @@ public class SaltoPrecision extends JFrame {
     private JLabel jugador1, jugador2, fondo, fondo2,fondo3, txt, txt2, txt3;
     private JFrame nivelKi, resultado;
     private Font fuente = new Font("Arial", Font.BOLD, 30);
+    // Obtener nombres desde GestorJugadores
+    private String nombreJugador1 = GestorJugadores.getJugador1();
+    private String nombreJugador2 = GestorJugadores.getJugador2();
 
     public SaltoPrecision() {
         setTitle("Dragon Ball 8-Bit Battle");
@@ -24,7 +27,10 @@ public class SaltoPrecision extends JFrame {
         setFocusable(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
+        System.out.println("Jugador 1: " + nombreJugador1);
+        System.out.println("Jugador 2: " + nombreJugador2);
 
+        
         // Fondo
         fondo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/fondo8bit.jpg"));
         fondo.setBounds(0, 0, 600, 400);
@@ -41,7 +47,7 @@ public class SaltoPrecision extends JFrame {
         barraProgreso.setStringPainted(true);
         barraProgreso.setBounds(150, 50, 300, 30);
 
-        lblInstrucciones = new JLabel("Jugador 1, presiona ESPACIO", SwingConstants.CENTER);
+        lblInstrucciones = new JLabel(nombreJugador1 + ", presiona ESPACIO", SwingConstants.CENTER);
         lblInstrucciones.setBounds(150, 300, 300, 30);
         lblInstrucciones.setForeground(Color.red);
         lblInstrucciones.setFont(new Font("Pixelated", Font.BOLD, 20));
@@ -120,11 +126,12 @@ public class SaltoPrecision extends JFrame {
         resultados[turno - 1] = barraProgreso.getValue();
         if (turno == 1) {
             turno = 2;
-            lblInstrucciones.setText("Jugador 2, presiona ESPACIO");
+            lblInstrucciones.setText(nombreJugador2 + ", presiona ESPACIO");
         } else {
             determinarGanador();
         }
     }
+
 
     private void determinarGanador() {
         int diff1 = Math.abs(objetivo - resultados[0]);
@@ -150,7 +157,7 @@ public class SaltoPrecision extends JFrame {
             txt3.setFont(fuente);
             txt3.setForeground(Color.orange);
             txt3.setBounds(300, 80, 450, 100);
-            txt3.setText("¡Konkun Ganó!");
+            txt3.setText("¡" + nombreJugador1 + " Ganó!");
             
             resultado.add(txt3);
             resultado.add(fondo3);
@@ -175,7 +182,8 @@ public class SaltoPrecision extends JFrame {
             txt3.setFont(fuente);
             txt3.setForeground(Color.blue);
             txt3.setBounds(300, 80, 450, 100);
-            txt3.setText("¡vegeta777 Ganó!");
+            txt3.setText("¡" + nombreJugador2 + " Ganó!");
+
             
             resultado.add(txt3);
             resultado.add(fondo3);
@@ -200,7 +208,7 @@ public class SaltoPrecision extends JFrame {
             txt3.setFont(fuente);
             txt3.setForeground(Color.black);
             txt3.setBounds(300, 80, 450, 100);
-            txt3.setText("¡Empatados!");
+            txt3.setText("¡Empate entre " + nombreJugador1 + " y " + nombreJugador2 + "!");
             
             resultado.add(txt3);
             resultado.add(fondo3);

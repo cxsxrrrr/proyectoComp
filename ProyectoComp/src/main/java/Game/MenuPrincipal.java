@@ -1,17 +1,23 @@
 package Game;
 
 import javax.swing.*;
+import java.util.List;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
 public class MenuPrincipal extends JFrame {
-    private ArrayList<String> jugadores = new ArrayList<>();
+    private GestorJugadores gestorJugadores;
+    private List<String> jugadoresBD;
     private JButton btnJugar, btnGestionarJugadores;
     private JLabel lblTitulo, fondo;
     private Font fuente = new Font("Arial", Font.BOLD, 20);
-
+   
     public MenuPrincipal() {
+    	gestorJugadores = new GestorJugadores(); // Ahora se inicializa correctamente
+    	jugadoresBD = gestorJugadores.obtenerJugadoresDesdeBD(); // Se obtiene después de inicializar
+
         setTitle("Menú Principal");
         setSize(1080,720); 
         setLayout(null);
@@ -43,12 +49,12 @@ public class MenuPrincipal extends JFrame {
         btnJugar.setBorderPainted(false);
         btnJugar.setFocusable(false);
         btnJugar.addActionListener(e -> {
-            if (jugadores.size() >= 2) {
+            jugadoresBD = gestorJugadores.obtenerJugadoresDesdeBD(); // Recargar lista
+            if (jugadoresBD.size() >= 2) {
                 this.dispose();
                 mostrarVentanaMinijuegos();
-            }
-            else{
-                mostrarVentanaMinijuegos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Debe haber al menos dos jugadores registrados.");
             }
         });
         // Botón Gestionar Jugadores
@@ -73,10 +79,11 @@ public class MenuPrincipal extends JFrame {
     }
 
     private void mostrarVentanaMinijuegos() {
-       if (jugadores.size() < 2) {
-           JOptionPane.showMessageDialog(this, "Debe haber al menos dos jugadores registrados.");
-           return;
-       }
+    	jugadoresBD = gestorJugadores.obtenerJugadoresDesdeBD();
+    	if (jugadoresBD.size() < 2) {
+    	    JOptionPane.showMessageDialog(this, "Debe haber al menos dos jugadores registrados.");
+    	    return;
+    	}
 
        // Crear la ventana
        JFrame ventanaMinijuegos = new JFrame("Escoja un minijuego");
@@ -190,43 +197,28 @@ public class MenuPrincipal extends JFrame {
        ventanaMinijuegos.setVisible(true);
    }
 
-
-
-
-
     // Ventana para gestionar jugadores
+ // Ventana para gestionar jugadores
+    private JFrame ventanaJugadores; // Nueva variable para controlar la ventana
+
     private void gestionarJugadores() {
-        JFrame ventanaJugadores = new JFrame("Gestionar Jugadores");
-        ventanaJugadores.setLayout(new BorderLayout());
-
-        // Panel para mostrar los jugadores registrados
-        JPanel panelJugadores = new JPanel();
-        panelJugadores.setLayout(new BoxLayout(panelJugadores, BoxLayout.Y_AXIS));
-
-        for (String jugador : jugadores) {
-            JLabel lblJugador = new JLabel(jugador);
-            panelJugadores.add(lblJugador);
+       if (gestorJugadores == null) { // Solo la creamos si no existe
+        
+            gestorJugadores.setResizable(false);
+            gestorJugadores.setLocationRelativeTo(null);
         }
-
-        // Botón para registrar un nuevo jugador
-        JButton btnRegistrarNuevoJugador = new JButton("Registrar Nuevo Jugador");
-        btnRegistrarNuevoJugador.addActionListener(e -> registrarNuevoJugador());
-
-        ventanaJugadores.add(new JScrollPane(panelJugadores), BorderLayout.CENTER);
-        ventanaJugadores.add(btnRegistrarNuevoJugador, BorderLayout.SOUTH);
-
-        ventanaJugadores.setSize(400, 300);
-        ventanaJugadores.setLocationRelativeTo(this);
-        ventanaJugadores.setVisible(true);
+        gestorJugadores.setVisible(true); // Mostrar solo cuando se llame al botón
     }
+
+
 
     // Registrar un nuevo jugador
     private void registrarNuevoJugador() {
         String nuevoJugador = JOptionPane.showInputDialog("Ingresa el nombre del nuevo jugador:");
-        if (nuevoJugador != null && !nuevoJugador.isEmpty() && !jugadores.contains(nuevoJugador)) {
-            jugadores.add(nuevoJugador);
+        if (nuevoJugador != null && !nuevoJugador.trim().isEmpty()) {
+            gestorJugadores.agregarJugador(nuevoJugador); // Llamar a GestorJugadores
         } else {
-            JOptionPane.showMessageDialog(this, "Jugador inválido o ya registrado.");
+            JOptionPane.showMessageDialog(this, "Nombre inválido.");
         }
     }
 
@@ -235,10 +227,10 @@ public class MenuPrincipal extends JFrame {
 
         // Selección de jugadores
         String jugador1 = (String) JOptionPane.showInputDialog(this, "Selecciona el primer jugador:", 
-                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadores.toArray(), jugadores.get(0));
+                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(0));
         
         String jugador2 = (String) JOptionPane.showInputDialog(this, "Selecciona el segundo jugador:", 
-                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadores.toArray(), jugadores.get(1));
+                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(1));
         
         if (jugador1 != null && jugador2 != null && !jugador1.equals(jugador2)) {
             switch (juego) {
