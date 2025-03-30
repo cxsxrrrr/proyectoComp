@@ -16,6 +16,7 @@ public class SaltoPrecision extends JFrame {
     private JLabel jugador1, jugador2, fondo, fondo2,fondo3, txt, txt2, txt3;
     private JFrame nivelKi, resultado;
     private Font fuente = new Font("Arial", Font.BOLD, 30);
+    
     // Obtener nombres desde GestorJugadores
     private String nombreJugador1 = GestorJugadores.getJugador1();
     private String nombreJugador2 = GestorJugadores.getJugador2();
@@ -61,6 +62,7 @@ public class SaltoPrecision extends JFrame {
         objetivo = new Random().nextInt(20) * 5 + 5;
         
         //Frame para saber nivel de Ki
+        
         nivelKi = new JFrame("Nivel de Ki");
         nivelKi.setTitle("Nivel de Ki");
         nivelKi.setSize(800, 600);
