@@ -3,14 +3,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CarreraPulsaciones extends JFrame {
+public class CarreraPiston extends JFrame {
     private JLabel fondo, fondo2, lblJugador1, lblJugador2, nick1, nick2, txt;
     private int posicionJ1 = 5, posicionJ2 = 5;
     private final int META = 540; // 20 píxeles antes del borde derecho
     private JFrame ganador = new JFrame();
     private String Ganador;
     
-    public CarreraPulsaciones() {
+    public CarreraPiston() {
         setTitle("Carrera");
         setSize(625, 430);
         setLayout(null);

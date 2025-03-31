@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
 
-public class SaltoPrecision extends JFrame {
+public class DragonBall extends JFrame {
     private JProgressBar barraProgreso;
     private Timer timer;
     private boolean direccion = true;
@@ -21,7 +21,7 @@ public class SaltoPrecision extends JFrame {
     private String nombreJugador1 = GestorJugadores.getJugador1();
     private String nombreJugador2 = GestorJugadores.getJugador2();
 
-    public SaltoPrecision() {
+    public DragonBall() {
         setTitle("Dragon Ball 8-Bit Battle");
         setSize(600, 400);
         setLayout(null);

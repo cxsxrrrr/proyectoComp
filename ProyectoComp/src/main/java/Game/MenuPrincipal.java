@@ -93,14 +93,14 @@ public class MenuPrincipal extends JFrame {
     ventanaMinijuegos.setLayout(null);
 
     // Crear los nombres y botones
-    String[] nombresJuegos = {"Carrera Piston", "Duelo de Reacción", "Lanzamiento de Poder", "Dragon Ball"};
+    String[] nombresJuegos = {"Carrera Piston", "Duelo de Vaqueros", "", "Dragon Ball"};
     String[] rutasImagenes = {
         "src/main/java/Game/imagenes/portada_Cars.jpg",
-        "src/main/java/Game/imagenes/btn_duelo_reaccion.png",
+        "src/main/java/Game/imagenes/portada_DUELO.jpg",
         "src/main/java/Game/imagenes/btn_lanzamiento_poder.png",
         "src/main/java/Game/imagenes/portada_DB.jpg"
     };
-    String[] nombresInternos = {"CarreraPulsaciones", "DueloReaccion", "LanzamientoPoder", "SaltoPrecision"};
+    String[] nombresInternos = {"CarreraPiston", "DueloVaqueros", "LanzamientoPoder", "DragonBall"};
 
     int[][] posiciones = {
         {100, 50, 400, 270}, {580, 50, 400, 270},
@@ -177,17 +177,17 @@ public class MenuPrincipal extends JFrame {
         
         if (jugador1 != null && jugador2 != null && !jugador1.equals(jugador2)) {
             switch (juego) {
-                case "CarreraPulsaciones":
-                    new CarreraPulsaciones();
+                case "CarreraPiston":
+                    new CarreraPiston();
                     break;
-                case "DueloReaccion":
-                    new DueloReaccion();
+                case "DueloVaqueros":
+                    new DueloVaqueros();
                     break;
                 case "LanzamientoPoder":
                     new LanzamientoPoder();
                     break;
-                case "SaltoPrecision":
-                    new SaltoPrecision();
+                case "DragonBall":
+                    new DragonBall();
                     break;
                 default:
                     break;
