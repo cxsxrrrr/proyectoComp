@@ -93,14 +93,14 @@ public class MenuPrincipal extends JFrame {
     ventanaMinijuegos.setLayout(null);
 
     // Crear los nombres y botones
-    String[] nombresJuegos = {"Carrera Piston", "Duelo de Vaqueros", "", "Dragon Ball"};
+    String[] nombresJuegos = {"Carrera Piston", "Duelo de Vaqueros", "VelociRunner: Escapando del Comunismo", "Dragon Ball"};
     String[] rutasImagenes = {
         "src/main/java/Game/imagenes/portada_Cars.jpg",
         "src/main/java/Game/imagenes/portada_DUELO.jpg",
-        "src/main/java/Game/imagenes/btn_lanzamiento_poder.png",
+        "src/main/java/Game/imagenes/portada_VELOCIRUNNER.jpg",
         "src/main/java/Game/imagenes/portada_DB.jpg"
     };
-    String[] nombresInternos = {"CarreraPiston", "DueloVaqueros", "LanzamientoPoder", "DragonBall"};
+    String[] nombresInternos = {"CarreraPiston", "DueloVaqueros", "VelociRunner", "DragonBall"};
 
     int[][] posiciones = {
         {100, 50, 400, 270}, {580, 50, 400, 270},
@@ -183,8 +183,8 @@ public class MenuPrincipal extends JFrame {
                 case "DueloVaqueros":
                     new DueloVaqueros();
                     break;
-                case "LanzamientoPoder":
-                    new LanzamientoPoder();
+                case "VelociRunner":
+                    new VelociRunner();
                     break;
                 case "DragonBall":
                     new DragonBall();
