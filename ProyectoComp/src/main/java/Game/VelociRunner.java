@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class VelociRunner extends JFrame {
-    private GamePanel gamePanel;
+    private PanelJuego panelJuego;
 
     public VelociRunner() {
         setTitle("VELOCIRUNNER: ESCAPANDO DEL COMUNISMO");
@@ -17,14 +17,14 @@ public class VelociRunner extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
 
-        gamePanel = new GamePanel();
-        add(gamePanel);
+        panelJuego = new PanelJuego();
+        add(panelJuego);
 
         addKeyListener(new java.awt.event.KeyAdapter() {
             @Override
             public void keyPressed(java.awt.event.KeyEvent e) {
                 if (e.getKeyCode() == java.awt.event.KeyEvent.VK_SPACE) {
-                    gamePanel.jump();
+                    panelJuego.jump();
                 }
             }
         });
@@ -37,86 +37,85 @@ public class VelociRunner extends JFrame {
     }
 }
 
-class GamePanel extends JPanel implements ActionListener {
+class PanelJuego extends JPanel implements ActionListener {
     private Timer timer;
-    private JLabel lblJugador, lblPuntaje, fondo;
+    private JLabel jugador, puntaje, fondo;
     private ArrayList<JLabel> obstaculos;
-    private int playerY = 200, playerVelocity = 0;
-    private final int gravity = 2;
-    private boolean isJumping = false;
-    private int score = 0;
+    private int jugY = 200, velocidad = 0;
+    private final int gravedad = 2;
+    private boolean salto = false;
+    private int puntuacion = 0;
     private Random rand;
-    private int lastObstacleX = 800; // Posición del último obstáculo generado
+    private int ultimoObst = 800; // ultimo
 
-    public GamePanel() {
+    public PanelJuego() {
         setLayout(null);
         setBackground(Color.WHITE);
         rand = new Random();
         
-        // Fondo
+        // fondo
         fondo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/fondo_VELOCIRUNNER.jpg"));
-        fondo.setBounds(0, -180, 800, 436); // Ajuste para alinear la base con el frame
+        fondo.setBounds(0, -180, 800, 436); 
         
 
-        // Jugador
-        lblJugador = new JLabel(new ImageIcon("src/main/java/Game/imagenes/velociraptor.png"));
-        lblJugador.setBounds(50, playerY, 50, 50);
-        add(lblJugador);
+        //jugador
+        jugador = new JLabel(new ImageIcon("src/main/java/Game/imagenes/velociraptor.png"));
+        jugador.setBounds(50, jugY, 50, 50);
+        add(jugador);
 
-        // Etiqueta de puntaje
-        lblPuntaje = new JLabel("Puntaje: 0");
-        lblPuntaje.setForeground(Color.white);
-        lblPuntaje.setFont(new Font("Arial", Font.BOLD, 20));
-        lblPuntaje.setBounds(650, 10, 150, 30); // Subir un poco para mejor visibilidad
-        add(lblPuntaje);
+        // puntos
+        puntaje = new JLabel("Puntaje: 0");
+        puntaje.setForeground(Color.white);
+        puntaje.setFont(new Font("Arial", Font.BOLD, 20));
+        puntaje.setBounds(650, 10, 150, 30);
+        add(puntaje);
         
         obstaculos = new ArrayList<>();
 
         timer = new Timer(20, this);
         timer.start();
-        spawnObstacle();
+        generarObstaculo();
         add(fondo);
     }
     
     public void jump() {
-        if (!isJumping) {
-            isJumping = true;
-            playerVelocity = -25;
+        if (!salto) {
+            salto = true;
+            velocidad = -25;
         }
     }
 
-    private void spawnObstacle() {
-        // Verifica que el último obstáculo esté lo suficientemente lejos
-        if (obstaculos.isEmpty() || lastObstacleX < 550) {
+    private void generarObstaculo() {
+        // validar cercania
+        if (obstaculos.isEmpty() || ultimoObst < 550) {
             JLabel obstaculo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/simbolo_comunista.png"));
-            int altura = 200; // Ajustado para estar sobre el suelo del fondo
+            int altura = 200; 
             obstaculo.setBounds(800, altura, 38, 48);
             add(obstaculo);
             obstaculos.add(obstaculo);
-            lastObstacleX = 800; // Actualiza la posición del último obstáculo generado
+            ultimoObst = 800; 
 
-            // Asegurar que el obstáculo esté al frente del fondo
             setComponentZOrder(obstaculo, 0);
 
-            // Programa el siguiente obstáculo en un tiempo aleatorio
-            new Timer(2000 + rand.nextInt(1000), e -> spawnObstacle()).start();
+            // tiempo aleatorio
+            new Timer(2000 + rand.nextInt(1000), e -> generarObstaculo()).start();
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Gravedad y salto
-        if (isJumping) {
-            playerY += playerVelocity;
-            playerVelocity += gravity;
-            if (playerY >= 200) {
-                playerY = 200;
-                isJumping = false;
+        // salto y gravedad
+        if (salto) {
+            jugY += velocidad;
+            velocidad += gravedad;
+            if (jugY >= 200) {
+                jugY = 200;
+                salto = false;
             }
-            lblJugador.setBounds(50, playerY, 50, 50);
+            jugador.setBounds(50, jugY, 50, 50);
         }
 
-        // Mover obstáculos
+        // mover comunismo
         for (int i = 0; i < obstaculos.size(); i++) {
             JLabel obstaculo = obstaculos.get(i);
             obstaculo.setLocation(obstaculo.getX() - 5, obstaculo.getY());
@@ -127,21 +126,20 @@ class GamePanel extends JPanel implements ActionListener {
                 i--;
             }
 
-            // Colisión
-            if (lblJugador.getBounds().intersects(obstaculo.getBounds())) {
+            // perder
+            if (jugador.getBounds().intersects(obstaculo.getBounds())) {
                 timer.stop();
-                JOptionPane.showMessageDialog(this, "Game Over! Puntaje: " + score);
+                JOptionPane.showMessageDialog(this, "Game Over! Puntaje: " + puntuacion);
                 System.exit(0);
             }
         }
 
-        // Actualizar puntaje constantemente
-        score += 1;
-        lblPuntaje.setText("Puntaje: " + score);
+        // actualizar
+        puntuacion += 1;
+        puntaje.setText("Puntaje: " + puntuacion);
 
-        // Actualizar la última posición del obstáculo más reciente
         if (!obstaculos.isEmpty()) {
-            lastObstacleX = obstaculos.get(obstaculos.size() - 1).getX();
+            ultimoObst = obstaculos.get(obstaculos.size() - 1).getX();
         }
 
         repaint();

@@ -23,8 +23,8 @@ public class GestorJugadores extends JFrame {
 
         modeloLista = new DefaultListModel<>();
         listaJugadores = new JList<>(modeloLista);
-        actualizarLista(); // Cargar datos directamente desde la base de datos
-
+        actualizarLista(); // Bdd
+        
         JPanel panelSuperior = new JPanel();
         panelSuperior.add(new JLabel("Nombre:"));
         txtNombre = new JTextField(15);
@@ -60,7 +60,7 @@ public class GestorJugadores extends JFrame {
     private void agregarJugador() {
         String nombre = txtNombre.getText().trim();
         if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El nombre no puede estar vacío.");
+            JOptionPane.showMessageDialog(this, "el nombre no puede estar vacío.");
             return;
         }
 
@@ -71,14 +71,14 @@ public class GestorJugadores extends JFrame {
             actualizarLista();
             txtNombre.setText("");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al agregar jugador: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "error al agregar jugador: " + e.getMessage());
         }
     }
 
     private void eliminarJugador() {
         String jugadorSeleccionado = listaJugadores.getSelectedValue();
         if (jugadorSeleccionado == null) {
-            JOptionPane.showMessageDialog(this, "Seleccione un jugador para eliminar.");
+            JOptionPane.showMessageDialog(this, "seleccione un jugador para eliminar.");
             return;
         }
 
@@ -88,7 +88,7 @@ public class GestorJugadores extends JFrame {
             pstmt.executeUpdate();
             actualizarLista();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al eliminar jugador: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "error al eliminar jugador: " + e.getMessage());
         }
     }
 
@@ -144,8 +144,4 @@ public class GestorJugadores extends JFrame {
     }
     
     
-
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(GestorJugadores::new);
-    }*/
 }

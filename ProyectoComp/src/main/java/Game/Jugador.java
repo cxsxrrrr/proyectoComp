@@ -4,12 +4,13 @@ public class Jugador {
     private int id;
     private String nombre;
     private int puntuacion;
-
+//constructor jugador
     public Jugador(int id, String nombre, int puntuacion) {
         this.id = id;
         this.nombre = nombre;
         this.puntuacion = puntuacion;
     }
+    //getters y setters
 
     public int getId() {
         return id;

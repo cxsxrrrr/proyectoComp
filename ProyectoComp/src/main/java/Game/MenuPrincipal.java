@@ -11,12 +11,12 @@ public class MenuPrincipal extends JFrame {
     private GestorJugadores gestorJugadores;
     private List<String> jugadoresBD;
     private JButton btnJugar, btnGestionarJugadores;
-    private JLabel lblTitulo, fondo;
+    private JLabel titulo, fondo;
     private Font fuente = new Font("Arial", Font.BOLD, 20);
    
     public MenuPrincipal() {
-    	gestorJugadores = new GestorJugadores(); // Ahora se inicializa correctamente
-    	jugadoresBD = gestorJugadores.obtenerJugadoresDesdeBD(); // Se obtiene después de inicializar
+    	gestorJugadores = new GestorJugadores(); 
+    	jugadoresBD = gestorJugadores.obtenerJugadoresDesdeBD();
 
         setTitle("Menú Principal");
         setSize(1080,720); 
@@ -25,23 +25,22 @@ public class MenuPrincipal extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         
-        // Fondo
+        // fondo
         fondo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/fondo_MENU.jpg"));
         fondo.setBounds(0, 0, 1080, 720);
         
-        // Título
-        lblTitulo = new JLabel("ARCADEA", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        lblTitulo.setForeground(Color.YELLOW);
-        lblTitulo.setBounds(430,35,200,50);
-        add(lblTitulo);
+        // titulo
+        titulo = new JLabel("ARCADEA", SwingConstants.CENTER);
+        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        titulo.setForeground(Color.YELLOW);
+        titulo.setBounds(430,35,200,50);
+        add(titulo);
 
-        // Crear el panel invisible
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new GridLayout(2, 1, 10, 10)); 
         panelBotones.setOpaque(false); 
 
-        // Botón Jugar
+        // jugar
         btnJugar = new JButton("Jugar");
         btnJugar.setFont(fuente);
         btnJugar.setForeground(Color.magenta);
@@ -57,7 +56,7 @@ public class MenuPrincipal extends JFrame {
                 JOptionPane.showMessageDialog(this, "Debe haber al menos dos jugadores registrados.");
             }
         });
-        // Botón Gestionar Jugadores
+        // gestionar jugadores
         btnGestionarJugadores = new JButton("Gestionar Jugadores");
         btnGestionarJugadores.setFont(fuente);
         btnGestionarJugadores.setForeground(Color.magenta);
@@ -66,11 +65,10 @@ public class MenuPrincipal extends JFrame {
         btnGestionarJugadores.setFocusable(false);
         btnGestionarJugadores.addActionListener(e -> gestionarJugadores());
 
-        // Agregar los botones al panel
+        // agg al panel
         panelBotones.add(btnJugar);
         panelBotones.add(btnGestionarJugadores);
 
-        // Centrar el panel en la ventana
         panelBotones.setBounds(400, 200, 250, 100); 
         this.add(panelBotones);
         this.add(fondo);
@@ -85,14 +83,14 @@ public class MenuPrincipal extends JFrame {
         return;
     }
 
-    // Crear la ventana
+    // ventana minijuegos
     JFrame ventanaMinijuegos = new JFrame("Minijuegos");
     ventanaMinijuegos.setSize(1080, 720);
     ventanaMinijuegos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     ventanaMinijuegos.setLocationRelativeTo(null);
     ventanaMinijuegos.setLayout(null);
 
-    // Crear los nombres y botones
+    // nombres de los juegos
     String[] nombresJuegos = {"Carrera Piston", "Duelo de Vaqueros", "VelociRunner: Escapando del Comunismo", "Dragon Ball"};
     String[] rutasImagenes = {
         "src/main/java/Game/imagenes/portada_Cars.jpg",
@@ -131,7 +129,7 @@ public class MenuPrincipal extends JFrame {
         ventanaMinijuegos.add(btnJuego);
     }
 
-    // Agregar fondo
+    // fondo
     JLabel fondo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/fondo_MINIJUEGOS.jpg"));
     fondo.setBounds(0, 0, 1080, 720);
     ventanaMinijuegos.add(fondo);
@@ -140,22 +138,22 @@ public class MenuPrincipal extends JFrame {
 }
 
 
-    // Ventana para gestionar jugadores
- // Ventana para gestionar jugadores
-    private JFrame ventanaJugadores; // Nueva variable para controlar la ventana
+
+ // gestionar jugadores
+    private JFrame ventanaJugadores; 
 
     private void gestionarJugadores() {
-       if (gestorJugadores == null) { // Solo la creamos si no existe
+       if (gestorJugadores == null) {
         
             gestorJugadores.setResizable(false);
             gestorJugadores.setLocationRelativeTo(null);
         }
-        gestorJugadores.setVisible(true); // Mostrar solo cuando se llame al botón
+        gestorJugadores.setVisible(true);
     }
 
 
 
-    // Registrar un nuevo jugador
+    // registrar un jugador
     private void registrarNuevoJugador() {
         String nuevoJugador = JOptionPane.showInputDialog("Ingresa el nombre del nuevo jugador:");
         if (nuevoJugador != null && !nuevoJugador.trim().isEmpty()) {
@@ -165,10 +163,10 @@ public class MenuPrincipal extends JFrame {
         }
     }
 
-    // Iniciar el juego seleccionado con los jugadores
+    // inicio juego
     private void iniciarJuego(String juego) {
 
-        // Selección de jugadores
+        // seleccionar jugadores 
         String jugador1 = (String) JOptionPane.showInputDialog(this, "Selecciona el primer jugador:", 
                 "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(0));
         

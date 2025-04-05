@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.util.Random;
 
 public class DueloVaqueros extends JFrame {
-    private JLabel lblMensaje, jugador1,nick1, jugador2,nick2,  bala, fondo;
+    private JLabel mensaje, jugador1,nombre1, jugador2,nombre2,  bala, fondo;
     private boolean listoParaReaccionar = false;
     private boolean juegoTerminado = false;
     private Timer timer, balaTimer;
@@ -21,55 +21,53 @@ public class DueloVaqueros extends JFrame {
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.white);
 
-        lblMensaje = new JLabel("¡Prepárate...!", SwingConstants.CENTER);
-        lblMensaje.setFont(new Font("Arial", Font.BOLD, 30));
-        lblMensaje.setBounds(150, 5, 300, 30);
-        add(lblMensaje);
+        mensaje = new JLabel("¡Prepárate...!", SwingConstants.CENTER);
+        mensaje.setFont(new Font("Arial", Font.BOLD, 30));
+        mensaje.setBounds(150, 5, 300, 30);
+        add(mensaje);
         
-        //Jugador 1
+        //jugador 1
         jugador1 = new JLabel(new ImageIcon("src/main/java/Game/imagenes/vaquero_bueno.png"));
         jugador1.setBounds(50, 290, 80, 80);
         
-        // Etiqueta Jugador 1
-        nick1 = new JLabel("Jugador 1");
-        nick1.setBounds(50, 280, 80, 15);
-        nick1.setForeground(Color.blue);
-        nick1.setOpaque(true);
-        nick1.setBackground(Color.black);
-        nick1.setFont(new Font("Pixelated", Font.BOLD, 15));
+        nombre1 = new JLabel("Jugador 1");
+        nombre1.setBounds(50, 280, 80, 15);
+        nombre1.setForeground(Color.blue);
+        nombre1.setOpaque(true);
+        nombre1.setBackground(Color.black);
+        nombre1.setFont(new Font("Pixelated", Font.BOLD, 15));
         add(jugador1);
-        add(nick1);
+        add(nombre1);
 
-        //Jugador 2
+        //jugador 2
         jugador2 = new JLabel(new ImageIcon("src/main/java/Game/imagenes/vaquero_malo.png"));
         jugador2.setBounds(440, 290, 80, 80);
         
-        // Etiqueta Jugador 2
-        nick2 = new JLabel("Jugador 2");
-        nick2.setBounds(440, 280, 80, 15);
-        nick2.setForeground(Color.red);
-        nick2.setOpaque(true);
-        nick2.setBackground(Color.black);
-        nick2.setFont(new Font("Pixelated", Font.BOLD, 15));
+        nombre2 = new JLabel("Jugador 2");
+        nombre2.setBounds(440, 280, 80, 15);
+        nombre2.setForeground(Color.red);
+        nombre2.setOpaque(true);
+        nombre2.setBackground(Color.black);
+        nombre2.setFont(new Font("Pixelated", Font.BOLD, 15));
         add(jugador2);
-        add(nick2);
-
+        add(nombre2);
+        // bala
         bala = new JLabel("💥");
         bala.setForeground(Color.yellow);
         bala.setVisible(false);
         bala.setBounds(0, 0, 30, 30);
         add(bala);
         
-        // Fondo
+        //fondo
         fondo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/fondo_VO.jpg"));
         fondo.setBounds(0, 0, 600, 400);
         add(fondo);
 
-        int tiempoAleatorio = 2000 + random.nextInt(4000);
+        int tiempoAleatorio = 2000 + random.nextInt(4000); //randomizar el tiempo
         timer = new Timer(tiempoAleatorio, e -> {
             getContentPane().setBackground(Color.black);
-            lblMensaje.setForeground(Color.white);
-            lblMensaje.setText("¡DISPARA!");
+            mensaje.setForeground(Color.white);
+            mensaje.setText("¡DISPARA!");
             listoParaReaccionar = true;
             timer.stop();
         });
