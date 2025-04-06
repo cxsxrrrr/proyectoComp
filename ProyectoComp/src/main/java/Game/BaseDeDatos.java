@@ -41,4 +41,37 @@ public class BaseDeDatos {
             System.out.println("error al iniciar la bdd: " + e.getMessage());
         }
     }
+    
+    public static void sumarPuntos(int jugadorId, String tipoJuego, int puntos) {
+        String selectSQL = "SELECT puntos FROM puntuaciones WHERE jugador_id = ? AND juego = ?";
+        String insertSQL = "INSERT INTO puntuaciones (jugador_id, juego, puntos) VALUES (?, ?, ?)";
+        String updateSQL = "UPDATE puntuaciones SET puntos = puntos + ? WHERE jugador_id = ? AND juego = ?";
+
+        try (Connection conn = conectar();
+             PreparedStatement selectStmt = conn.prepareStatement(selectSQL)) {
+
+            selectStmt.setInt(1, jugadorId);
+            selectStmt.setString(2, tipoJuego);
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (rs.next()) {
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateSQL)) {
+                    updateStmt.setInt(1, puntos);
+                    updateStmt.setInt(2, jugadorId);
+                    updateStmt.setString(3, tipoJuego);
+                    updateStmt.executeUpdate();
+                }
+            } else {
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertSQL)) {
+                    insertStmt.setInt(1, jugadorId);
+                    insertStmt.setString(2, tipoJuego);
+                    insertStmt.setInt(3, puntos);
+                    insertStmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al sumar puntos: " + e.getMessage());
+        }
+    }
+    
 }

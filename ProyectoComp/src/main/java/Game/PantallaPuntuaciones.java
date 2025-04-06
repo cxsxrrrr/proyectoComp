@@ -42,7 +42,7 @@ public class PantallaPuntuaciones extends JFrame {
             }
             txtPuntuaciones.setText(sb.toString());
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar puntuaciones: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "error al cargar puntuaciones: " + e.getMessage());
         }
     }
 }

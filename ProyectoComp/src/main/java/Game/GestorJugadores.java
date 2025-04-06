@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestorJugadores extends JFrame {
-    private static String jugador1Seleccionado = "Jugador 1";
-    private static String jugador2Seleccionado = "Jugador 2";
+    
+    private static String jugador1;
+    private static String jugador2;
 
     private JTextField txtNombre;
     private DefaultListModel<String> modeloLista;
     private JList<String> listaJugadores;
+
 
     public GestorJugadores() {
         setTitle("Gestión de Jugadores");
@@ -32,16 +34,16 @@ public class GestorJugadores extends JFrame {
 
         JButton btnAgregar = new JButton("Agregar");
         JButton btnEliminar = new JButton("Eliminar");
-        JButton btnSeleccionar = new JButton("Seleccionar Jugadores");
+//        JButton btnSeleccionar = new JButton("Seleccionar Jugadores");
 
         btnAgregar.addActionListener(e -> agregarJugador());
         btnEliminar.addActionListener(e -> eliminarJugador());
-        btnSeleccionar.addActionListener(e -> seleccionarJugadores());
+//        btnSeleccionar.addActionListener(e -> seleccionarJugadores());
 
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnAgregar);
         panelBotones.add(btnEliminar);
-        panelBotones.add(btnSeleccionar);
+//        panelBotones.add(btnSeleccionar);
 
         add(panelSuperior, BorderLayout.NORTH);
         add(new JScrollPane(listaJugadores), BorderLayout.CENTER);
@@ -92,24 +94,6 @@ public class GestorJugadores extends JFrame {
         }
     }
 
-    private void seleccionarJugadores() {
-        List<String> jugadores = obtenerJugadoresDesdeBD();
-        if (jugadores.size() < 2) {
-            JOptionPane.showMessageDialog(this, "Debe haber al menos dos jugadores registrados.");
-            return;
-        }
-
-        jugador1Seleccionado = (String) JOptionPane.showInputDialog(this, "Selecciona el primer jugador:",
-                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadores.toArray(), jugadores.get(0));
-
-        jugador2Seleccionado = (String) JOptionPane.showInputDialog(this, "Selecciona el segundo jugador:",
-                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadores.toArray(), jugadores.get(1));
-
-        if (jugador1Seleccionado.equals(jugador2Seleccionado)) {
-            JOptionPane.showMessageDialog(this, "Los jugadores seleccionados no pueden ser los mismos.");
-        }
-    }
-
     List<String> obtenerJugadoresDesdeBD() {
         List<String> jugadores = new ArrayList<>();
         try (Connection conn = BaseDeDatos.conectar();
@@ -134,13 +118,36 @@ public class GestorJugadores extends JFrame {
             System.out.println("Error al agregar jugador: " + e.getMessage());
         }
     }
+    
+    public int obtenerIdJugadorPorNombre(String nombre) {
+        String sql = "SELECT id FROM jugadores WHERE nombre = ?";
+        try (Connection conn = BaseDeDatos.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nombre);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static void setJugador1(String nombre) {
+        jugador1 = nombre;
+    }
+
+    public static void setJugador2(String nombre) {
+        jugador2 = nombre;
+    }
 
     public static String getJugador1() {
-        return jugador1Seleccionado;
+        return jugador1;
     }
 
     public static String getJugador2() {
-        return jugador2Seleccionado;
+        return jugador2;
     }
     
     

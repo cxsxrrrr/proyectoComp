@@ -114,7 +114,10 @@ public class DragonBall extends JFrame {
         });
 
         setVisible(true);
+        
     }
+    
+    
 
     private void moverBarra() {
         int valor = barraProgreso.getValue();
@@ -137,87 +140,61 @@ public class DragonBall extends JFrame {
         }
     }
 
+    private void mostrarResultado(String mensaje, String imagenPath, Color colorTexto, String ganador) {
+        resultado = new JFrame("Resultado");
+        resultado.setSize(800, 600);
+        resultado.setLayout(null);
+        resultado.setLocationRelativeTo(null);
+        resultado.setAlwaysOnTop(true);
+        resultado.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Para que no cierre todo el programa
+
+        resultado.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                new VentanaPuntuaciones(); // Mostrar tabla después de cerrar ventana de resultado
+            }
+        });
+
+        // Fondo
+        fondo3 = new JLabel(new ImageIcon(imagenPath));
+        fondo3.setBounds(0, 0, 800, 600);
+
+        // Texto
+        txt3 = new JLabel(mensaje);
+        txt3.setFont(fuente);
+        txt3.setForeground(colorTexto);
+        txt3.setBounds(300, 80, 450, 100);
+
+        resultado.add(txt3);
+        resultado.add(fondo3);
+        resultado.setVisible(true);
+
+        // Guardar puntuación si hay ganador
+        if (ganador != null) {
+            GestorPuntuaciones.registrarPuntuacion(ganador, "Poder", 100); // "Poder" es el tipo de juego
+        }
+    }
+
 
     private void determinarGanador() {
         int diff1 = Math.abs(objetivo - resultados[0]);
-        int diff2 = Math.abs(objetivo - resultados[1]); // pa q sea positivo
+        int diff2 = Math.abs(objetivo - resultados[1]);
+
         if (diff1 < diff2) {
-            resultado = new JFrame("Resultado");
-            resultado.setTitle("Resultado");
-            resultado.setSize(800, 600);
-            resultado.setLayout(null);
-            resultado.setFocusable(true);
-            resultado.setLocationRelativeTo(null);
-            resultado.setAlwaysOnTop(true);
-            resultado.setDefaultCloseOperation(resultado.DISPOSE_ON_CLOSE);
-
-            resultado.setVisible(true);
-            //fondo3
-            fondo3 = new JLabel(new ImageIcon("src/main/java/Game/imagenes/goku_win.jpeg"));
-            fondo3.setBounds(0, 0, 800, 600);
-
-
-            txt3 = new JLabel();
-            txt3.setFont(fuente);
-            txt3.setForeground(Color.orange);
-            txt3.setBounds(300, 80, 450, 100);
-            txt3.setText("¡" + nombreJ1 + " Ganó!");
-            
-            resultado.add(txt3);
-            resultado.add(fondo3);
-        //***********************************************************************************************
+            mostrarResultado("¡" + nombreJ1 + " Ganó!", 
+                             "src/main/java/Game/imagenes/goku_win.jpeg", 
+                             Color.ORANGE, nombreJ1);
         } else if (diff2 < diff1) {
-            resultado = new JFrame("Resultado");
-            resultado.setTitle("Resultado");
-            resultado.setSize(800, 600);
-            resultado.setLayout(null);
-            resultado.setFocusable(true);
-            resultado.setLocationRelativeTo(null);
-            resultado.setAlwaysOnTop(true);
-            resultado.setDefaultCloseOperation(resultado.DISPOSE_ON_CLOSE);
-
-            resultado.setVisible(true);
-            // fondo3
-            fondo3 = new JLabel(new ImageIcon("src/main/java/Game/imagenes/vegeta_win.jpeg"));
-            fondo3.setBounds(0, 0, 800, 600);
-
-
-            txt3 = new JLabel();
-            txt3.setFont(fuente);
-            txt3.setForeground(Color.blue);
-            txt3.setBounds(300, 80, 450, 100);
-            txt3.setText("¡" + nombreJ2 + " Ganó!");
-
-            
-            resultado.add(txt3);
-            resultado.add(fondo3);
-        //***********************************************************************************************
+            mostrarResultado("¡" + nombreJ2 + " Ganó!", 
+                             "src/main/java/Game/imagenes/vegeta_win.jpeg", 
+                             Color.BLUE, nombreJ2);
         } else {
-            resultado = new JFrame("Resultado");
-            resultado.setTitle("Resultado");
-            resultado.setSize(800, 600);
-            resultado.setLayout(null);
-            resultado.setFocusable(true);
-            resultado.setLocationRelativeTo(null);
-            resultado.setAlwaysOnTop(true);
-            resultado.setDefaultCloseOperation(resultado.DISPOSE_ON_CLOSE);
-
-            resultado.setVisible(true);
-            //fondo3
-            fondo3 = new JLabel(new ImageIcon("src/main/java/Game/imagenes/GyV_empate.jpeg"));
-            fondo3.setBounds(0, 0, 800, 600);
-
-
-            txt3 = new JLabel();
-            txt3.setFont(fuente);
-            txt3.setForeground(Color.black);
-            txt3.setBounds(300, 80, 450, 100);
-            txt3.setText("¡Empate entre " + nombreJ1 + " y " + nombreJ2 + "!");
-            
-            resultado.add(txt3);
-            resultado.add(fondo3);
-        //***********************************************************************************************
+            mostrarResultado("¡Empate entre " + nombreJ1 + " y " + nombreJ2 + "!", 
+                             "src/main/java/Game/imagenes/GyV_empate.jpeg", 
+                             Color.BLACK, null); // empate, no sumar puntos
         }
-        dispose();
+
+        dispose(); // cerrar ventana del minijuego
     }
+
 }

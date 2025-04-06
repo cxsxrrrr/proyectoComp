@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.util.List;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
+
 
 public class MenuPrincipal extends JFrame {
     private GestorJugadores gestorJugadores;
@@ -140,7 +139,7 @@ public class MenuPrincipal extends JFrame {
 
 
  // gestionar jugadores
-    private JFrame ventanaJugadores; 
+
 
     private void gestionarJugadores() {
        if (gestorJugadores == null) {
@@ -157,7 +156,7 @@ public class MenuPrincipal extends JFrame {
     private void registrarNuevoJugador() {
         String nuevoJugador = JOptionPane.showInputDialog("Ingresa el nombre del nuevo jugador:");
         if (nuevoJugador != null && !nuevoJugador.trim().isEmpty()) {
-            gestorJugadores.agregarJugador(nuevoJugador); // Llamar a GestorJugadores
+            gestorJugadores.agregarJugador(nuevoJugador); // instanciamos de GestorJugadores
         } else {
             JOptionPane.showMessageDialog(this, "Nombre inválido.");
         }
@@ -165,35 +164,49 @@ public class MenuPrincipal extends JFrame {
 
     // inicio juego
     private void iniciarJuego(String juego) {
+        String jugador1;
+        String jugador2 = null;
 
-        // seleccionar jugadores 
-        String jugador1 = (String) JOptionPane.showInputDialog(this, "Selecciona el primer jugador:", 
-                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(0));
-        
-        String jugador2 = (String) JOptionPane.showInputDialog(this, "Selecciona el segundo jugador:", 
-                "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(1));
-        
-        if (jugador1 != null && jugador2 != null && !jugador1.equals(jugador2)) {
-            switch (juego) {
-                case "CarreraPiston":
-                    new CarreraPiston();
-                    break;
-                case "DueloVaqueros":
-                    new DueloVaqueros();
-                    break;
-                case "VelociRunner":
-                    new VelociRunner();
-                    break;
-                case "DragonBall":
-                    new DragonBall();
-                    break;
-                default:
-                    break;
+        if (juego.equals("VelociRunner")) {
+            // aqui seleccionamos un solo jugador
+            jugador1 = (String) JOptionPane.showInputDialog(this, "Selecciona el jugador:", 
+                    "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(0));
+            
+            if (jugador1 != null) {
+                GestorJugadores.setJugador1(jugador1);
+                new VelociRunner();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Los jugadores seleccionados no pueden ser los mismos.");
+            // para juegos de dos jugadores
+            jugador1 = (String) JOptionPane.showInputDialog(this, "Selecciona el primer jugador:", 
+                    "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(0));
+            
+            jugador2 = (String) JOptionPane.showInputDialog(this, "Selecciona el segundo jugador:", 
+                    "Seleccionar Jugador", JOptionPane.QUESTION_MESSAGE, null, jugadoresBD.toArray(), jugadoresBD.get(1));
+            
+            if (jugador1 != null && jugador2 != null && !jugador1.equals(jugador2)) {
+                GestorJugadores.setJugador1(jugador1);
+                GestorJugadores.setJugador2(jugador2);
+
+                switch (juego) {
+                    case "CarreraPiston":
+                        new CarreraPiston();
+                        break;
+                    case "DueloVaqueros":
+                        new DueloVaqueros();
+                        break;
+                    case "DragonBall":
+                        new DragonBall();
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Los jugadores seleccionados no pueden ser los mismos.");
+            }
         }
     }
+
 
     public static void main(String[] args) {
         new MenuPrincipal();

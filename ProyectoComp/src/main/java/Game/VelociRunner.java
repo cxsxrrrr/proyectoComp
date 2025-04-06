@@ -13,7 +13,7 @@ public class VelociRunner extends JFrame {
     public VelociRunner() {
         setTitle("VELOCIRUNNER: ESCAPANDO DEL COMUNISMO");
         setSize(799, 295);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // <-- para no cerrar todo el programa
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -39,26 +39,33 @@ public class VelociRunner extends JFrame {
 
 class PanelJuego extends JPanel implements ActionListener {
     private Timer timer;
-    private JLabel jugador, puntaje, fondo;
+    private JLabel jugador, nombreJugador, puntaje, fondo;
     private ArrayList<JLabel> obstaculos;
     private int jugY = 200, velocidad = 0;
     private final int gravedad = 2;
     private boolean salto = false;
     private int puntuacion = 0;
     private Random rand;
-    private int ultimoObst = 800; // ultimo
+    private int ultimoObst = 800;
 
     public PanelJuego() {
         setLayout(null);
         setBackground(Color.WHITE);
         rand = new Random();
-        
-        // fondo
-        fondo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/fondo_VELOCIRUNNER.jpg"));
-        fondo.setBounds(0, -180, 800, 436); 
-        
 
-        //jugador
+        fondo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/fondo_VELOCIRUNNER.jpg"));
+        fondo.setBounds(0, -180, 800, 436);
+
+        // nombre del jugador
+        nombreJugador = new JLabel(GestorJugadores.getJugador1());
+        nombreJugador.setBounds(50, 190, 80, 15);
+        nombreJugador.setForeground(Color.green);
+        nombreJugador.setOpaque(true);
+        nombreJugador.setBackground(Color.black);
+        nombreJugador.setFont(new Font("Pixelated", Font.BOLD, 15));
+        add(nombreJugador);
+
+        // jugador
         jugador = new JLabel(new ImageIcon("src/main/java/Game/imagenes/velociraptor.png"));
         jugador.setBounds(50, jugY, 50, 50);
         add(jugador);
@@ -69,15 +76,16 @@ class PanelJuego extends JPanel implements ActionListener {
         puntaje.setFont(new Font("Arial", Font.BOLD, 20));
         puntaje.setBounds(650, 10, 150, 30);
         add(puntaje);
-        
+
         obstaculos = new ArrayList<>();
 
         timer = new Timer(20, this);
         timer.start();
         generarObstaculo();
+
         add(fondo);
     }
-    
+
     public void jump() {
         if (!salto) {
             salto = true;
@@ -86,18 +94,14 @@ class PanelJuego extends JPanel implements ActionListener {
     }
 
     private void generarObstaculo() {
-        // validar cercania
         if (obstaculos.isEmpty() || ultimoObst < 550) {
             JLabel obstaculo = new JLabel(new ImageIcon("src/main/java/Game/imagenes/simbolo_comunista.png"));
-            int altura = 200; 
+            int altura = 200;
             obstaculo.setBounds(800, altura, 38, 48);
             add(obstaculo);
             obstaculos.add(obstaculo);
-            ultimoObst = 800; 
-
+            ultimoObst = 800;
             setComponentZOrder(obstaculo, 0);
-
-            // tiempo aleatorio
             new Timer(2000 + rand.nextInt(1000), e -> generarObstaculo()).start();
         }
     }
@@ -113,9 +117,10 @@ class PanelJuego extends JPanel implements ActionListener {
                 salto = false;
             }
             jugador.setBounds(50, jugY, 50, 50);
+            nombreJugador.setBounds(50, jugY - 10, 80, 15);
         }
 
-        // mover comunismo
+        // mover obstáculos
         for (int i = 0; i < obstaculos.size(); i++) {
             JLabel obstaculo = obstaculos.get(i);
             obstaculo.setLocation(obstaculo.getX() - 5, obstaculo.getY());
@@ -126,15 +131,28 @@ class PanelJuego extends JPanel implements ActionListener {
                 i--;
             }
 
-            // perder
             if (jugador.getBounds().intersects(obstaculo.getBounds())) {
                 timer.stop();
-                JOptionPane.showMessageDialog(this, "Game Over! Puntaje: " + puntuacion);
-                System.exit(0);
+
+                // Sumar puntaje al jugador 1
+                String nombre = GestorJugadores.getJugador1();
+                int id = new GestorJugadores().obtenerIdJugadorPorNombre(nombre);
+                BaseDeDatos.sumarPuntos(id, "VelociRunner", puntuacion); // guarda lo que hizo en partida
+
+                JOptionPane.showMessageDialog(this, "¡Game Over!\nPuntaje: " + puntuacion);
+
+                // Mostrar ventana de puntuaciones después de 1 segundo
+                Timer ventanaPuntajesTimer = new Timer(1000, evt -> {
+                    new VentanaPuntuaciones();
+                    SwingUtilities.getWindowAncestor(this).dispose(); // cerrar ventana de juego
+                });
+                ventanaPuntajesTimer.setRepeats(false);
+                ventanaPuntajesTimer.start();
+
+                return;
             }
         }
 
-        // actualizar
         puntuacion += 1;
         puntaje.setText("Puntaje: " + puntuacion);
 
