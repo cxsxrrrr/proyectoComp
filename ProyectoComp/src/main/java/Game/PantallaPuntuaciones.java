@@ -24,8 +24,9 @@ public class PantallaPuntuaciones extends JFrame {
     }
 
     private void cargarPuntuaciones() {
+    	//query
         String sql = "SELECT j.nombre, p.tipo_juego, p.puntos FROM puntuaciones p " +
-                     "JOIN jugadores j ON p.jugador_id = j.id ORDER BY p.puntos DESC LIMIT 10";
+                     "JOIN jugadores j ON p.jugador_id = j.id ORDER BY p.puntos DESC LIMIT 10"; 
         try (Connection conn = BaseDeDatos.conectar();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -41,7 +42,7 @@ public class PantallaPuntuaciones extends JFrame {
             }
             txtPuntuaciones.setText(sb.toString());
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar puntuaciones: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "error al cargar puntuaciones: " + e.getMessage());
         }
     }
 }
