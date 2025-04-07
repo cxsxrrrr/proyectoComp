@@ -9,7 +9,7 @@ import java.awt.*;
 public class MenuPrincipal extends JFrame {
     private GestorJugadores gestorJugadores;
     private List<String> jugadoresBD;
-    private JButton btnJugar, btnGestionarJugadores;
+    private JButton btnJugar, btnGestionarJugadores, btnSalir;
     private JLabel titulo, fondo;
     private Font fuente = new Font("Arial", Font.BOLD, 20);
    
@@ -36,7 +36,7 @@ public class MenuPrincipal extends JFrame {
         add(titulo);
 
         JPanel panelBotones = new JPanel();
-        panelBotones.setLayout(new GridLayout(2, 1, 10, 10)); 
+        panelBotones.setLayout(new GridLayout(3, 1, 10, 20)); 
         panelBotones.setOpaque(false); 
 
         // jugar
@@ -63,10 +63,19 @@ public class MenuPrincipal extends JFrame {
         btnGestionarJugadores.setBorderPainted(false); 
         btnGestionarJugadores.setFocusable(false);
         btnGestionarJugadores.addActionListener(e -> gestionarJugadores());
+        // salir
+        btnSalir = new JButton("Salir");
+        btnSalir.setFont(fuente);
+        btnSalir.setForeground(Color.magenta);
+        btnSalir.setContentAreaFilled(false);
+        btnSalir.setBorderPainted(false);
+        btnSalir.setFocusable(false);
+        btnSalir.addActionListener(e -> System.exit(0));
 
         // agg al panel
         panelBotones.add(btnJugar);
         panelBotones.add(btnGestionarJugadores);
+        panelBotones.add(btnSalir);
 
         panelBotones.setBounds(400, 200, 250, 100); 
         this.add(panelBotones);
@@ -203,6 +212,7 @@ public class MenuPrincipal extends JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Los jugadores seleccionados no pueden ser los mismos.");
+                new MenuPrincipal();
             }
         }
     }

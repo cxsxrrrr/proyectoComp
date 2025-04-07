@@ -103,7 +103,7 @@ public class GestorJugadores extends JFrame {
                 jugadores.add(rs.getString("nombre"));
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al obtener jugadores: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "error al obtener jugadores: " + e.getMessage());
         }
         return jugadores;
     }
@@ -115,7 +115,7 @@ public class GestorJugadores extends JFrame {
             pstmt.setString(1, nombre);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al agregar jugador: " + e.getMessage());
+            System.out.println("error al agregar jugador: " + e.getMessage());
         }
     }
     
