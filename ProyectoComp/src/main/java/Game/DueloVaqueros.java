@@ -130,7 +130,7 @@ public class DueloVaqueros extends JFrame {
 
     private void mostrarResultado(String ganador) {
         JOptionPane.showMessageDialog(this, "¡Gana " + ganador + "!");
-        GestorPuntuaciones.registrarPuntuacion(ganador, "Duelo", 100);
+        GestorPuntuaciones.registrarPuntuacion(ganador, "Duelo de Vaqueros", 100);
         dispose();
         new VentanaPuntuaciones(); // Mostrar tabla después del juego
     }

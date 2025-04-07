@@ -34,16 +34,16 @@ public class GestorJugadores extends JFrame {
 
         JButton btnAgregar = new JButton("Agregar");
         JButton btnEliminar = new JButton("Eliminar");
-//        JButton btnSeleccionar = new JButton("Seleccionar Jugadores");
+
 
         btnAgregar.addActionListener(e -> agregarJugador());
         btnEliminar.addActionListener(e -> eliminarJugador());
-//        btnSeleccionar.addActionListener(e -> seleccionarJugadores());
+
 
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnAgregar);
         panelBotones.add(btnEliminar);
-//        panelBotones.add(btnSeleccionar);
+
 
         add(panelSuperior, BorderLayout.NORTH);
         add(new JScrollPane(listaJugadores), BorderLayout.CENTER);
@@ -129,7 +129,7 @@ public class GestorJugadores extends JFrame {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+        	System.out.println("error al obtener id del jugador: " + e.getMessage());
         }
         return -1;
     }
