@@ -171,7 +171,7 @@ public class DragonBall extends JFrame {
 
         // Guardar puntuación si hay ganador
         if (ganador != null) {
-            GestorPuntuaciones.registrarPuntuacion(ganador, "Poder", 100); // "Poder" es el tipo de juego
+            GestorPuntuaciones.registrarPuntuacion(ganador, "Dragon Ball", 100);
         }
     }
 

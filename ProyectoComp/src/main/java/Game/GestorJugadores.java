@@ -34,16 +34,16 @@ public class GestorJugadores extends JFrame {
 
         JButton btnAgregar = new JButton("Agregar");
         JButton btnEliminar = new JButton("Eliminar");
-//        JButton btnSeleccionar = new JButton("Seleccionar Jugadores");
+
 
         btnAgregar.addActionListener(e -> agregarJugador());
         btnEliminar.addActionListener(e -> eliminarJugador());
-//        btnSeleccionar.addActionListener(e -> seleccionarJugadores());
+
 
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnAgregar);
         panelBotones.add(btnEliminar);
-//        panelBotones.add(btnSeleccionar);
+
 
         add(panelSuperior, BorderLayout.NORTH);
         add(new JScrollPane(listaJugadores), BorderLayout.CENTER);
@@ -103,7 +103,7 @@ public class GestorJugadores extends JFrame {
                 jugadores.add(rs.getString("nombre"));
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error al obtener jugadores: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "error al obtener jugadores: " + e.getMessage());
         }
         return jugadores;
     }
@@ -115,7 +115,7 @@ public class GestorJugadores extends JFrame {
             pstmt.setString(1, nombre);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al agregar jugador: " + e.getMessage());
+            System.out.println("error al agregar jugador: " + e.getMessage());
         }
     }
     
@@ -129,7 +129,7 @@ public class GestorJugadores extends JFrame {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+        	System.out.println("error al obtener id del jugador: " + e.getMessage());
         }
         return -1;
     }

@@ -29,7 +29,7 @@ public class BaseDeDatos {
         String puntuacionesSQL = "CREATE TABLE IF NOT EXISTS puntuaciones ("
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "jugador_id INT, "
-                + "juego ENUM('Carrera', 'Poder', 'Salto', 'Reaccion') NOT NULL, "
+                + "juego VARCHAR(20) NOT NULL, "
                 + "puntos INT NOT NULL, "
                 + "FOREIGN KEY (jugador_id) REFERENCES jugadores(id) ON DELETE CASCADE)";
 
@@ -70,7 +70,7 @@ public class BaseDeDatos {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error al sumar puntos: " + e.getMessage());
+            System.out.println("error al sumar puntos: " + e.getMessage());
         }
     }
     

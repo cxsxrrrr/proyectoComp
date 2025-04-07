@@ -18,7 +18,7 @@ public class GestorPuntuaciones {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            System.out.println("Error al obtener ID del jugador: " + e.getMessage());
+            System.out.println("error al obtener ID del jugador: " + e.getMessage());
         }
         return -1; // no encontrado
     }
@@ -38,7 +38,7 @@ public class GestorPuntuaciones {
         if (jugadorId != -1) {
             BaseDeDatos.sumarPuntos(jugadorId, tipoJuego, puntos);
         } else {
-            System.out.println("Jugador no encontrado en la base de datos.");
+            System.out.println("jugador no encontrado en la base de datos");
         }
     }
     

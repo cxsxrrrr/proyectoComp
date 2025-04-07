@@ -61,11 +61,11 @@ public class CarreraPiston extends JFrame {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyChar() == 'a' && posicionJ1 < meta) {
+                if (e.getKeyChar() == 'a' || e.getKeyChar() == 'A'  && posicionJ1 < meta) {
                     posicionJ1 += 5;
                     jugador1.setBounds(posicionJ1, 90, 80, 60);
                     nombre1.setBounds(posicionJ1, 70, 80, 15);
-                } else if (e.getKeyChar() == 'l' && posicionJ2 < meta) {
+                } else if (e.getKeyChar() == 'l' || e.getKeyChar() == 'L'  && posicionJ2 < meta) {
                     posicionJ2 += 5;
                     jugador2.setBounds(posicionJ2, 245, 80, 60);
                     nombre2.setBounds(posicionJ2, 225, 80, 15);
@@ -112,7 +112,7 @@ public class CarreraPiston extends JFrame {
             // Sumar puntos
             GestorJugadores gestor = new GestorJugadores();
             int idGanador = gestor.obtenerIdJugadorPorNombre(ganadorNombre);
-            BaseDeDatos.sumarPuntos(idGanador, "Carrera", 100);
+            BaseDeDatos.sumarPuntos(idGanador, "Carrera Piston", 100);
 
             // Mostrar puntuaciones después de cerrar la ventana de ganador
             Timer timer = new Timer(3000, e -> {
